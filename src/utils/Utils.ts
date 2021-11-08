@@ -1,4 +1,4 @@
-let timerId: number | undefined | NodeJS.Timeout;
+let timerIds: Map<Function, number> = new Map<Function, number>();
 
 /**
  * 
@@ -8,11 +8,16 @@ let timerId: number | undefined | NodeJS.Timeout;
  */
 
 export const throttleFunction = (callBack: Function, delay: number) => {
-    return () => {
-        if (timerId) return;
+    return (props: any) => {
+        if (timerIds.has(callBack))
+            return;
 
-        callBack();
-        timerId = setTimeout(() => timerId = undefined, delay);
+        
+        let id: any = setTimeout(() => {
+            timerIds.delete(callBack)
+            callBack(props);
+        }, delay);
+        timerIds.set(callBack, id);
     }
 }
 
@@ -29,8 +34,11 @@ export const throttleFunction = (callBack: Function, delay: number) => {
 
 export const debounceFunction = (callBack: Function, delay: number) => {
     return (props: any) => {
-        clearTimeout(timerId as number);
+        if (timerIds.has(callBack)) 
+            clearTimeout(timerIds.get(callBack));
+    
 
-        timerId = setTimeout(callBack.bind(null, props), delay);
+        let id: any = setTimeout(callBack.bind(null, props), delay);
+        timerIds.set(callBack, id);
     }
 }

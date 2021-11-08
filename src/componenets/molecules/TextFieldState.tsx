@@ -41,6 +41,10 @@ const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, valida
             if (validate) {
                 let { isValid, message }: { isValid: boolean, message: string } = validateInput(value, validate);
                 if (isValid) {
+                    setErrors((currentErrors) => ({
+                        ...currentErrors,
+                        [name]: false
+                    }));
                     setState((currentState) => ({
                         ...currentState,
                         [name]: value
@@ -51,7 +55,12 @@ const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, valida
                         [name]: message
                     }));
                 }
+                return;
             }
+            setState((currentState) => ({
+                ...currentState,
+                [name]: value
+            }));
         }, [setState]
     );
 

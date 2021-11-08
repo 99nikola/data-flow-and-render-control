@@ -1,5 +1,4 @@
 
-
 .inputField {
     margin: 3px;
     height: 40px;
@@ -9,4 +8,6 @@
 
 .errorMessage {
     color: red;
+    margin: 0;
+    padding: 0;
 }

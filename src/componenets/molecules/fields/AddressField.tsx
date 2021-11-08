@@ -1,3 +1,4 @@
+import { memo } from "react";
 import TextField from "../../atoms/TextField/TextField";
 
 const AddressField = () => {
@@ -6,4 +7,4 @@ const AddressField = () => {
     );
 }
 
-export default AddressField;
+export default memo(AddressField);

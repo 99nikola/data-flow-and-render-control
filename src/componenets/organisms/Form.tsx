@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../atoms/Button/Button";
 import EmailField from "../molecules/fields/EmailField";
 import FirstNameField from "../molecules/fields/FirstNameField";
@@ -8,6 +8,10 @@ const Form = () => {
 
     const [ userInfo, setUserInfo ] = useState({});
     const [ errors, setErrors ] = useState({});
+
+    useEffect(() => {
+        console.log(userInfo);
+    }, [userInfo]);
 
     const submitHandler = (e: any) => {
         e.preventDefault();

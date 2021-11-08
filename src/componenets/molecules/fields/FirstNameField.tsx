@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { debounceFunction } from "../../../utils/Utils";
 import TextField from "../../atoms/TextField/TextField";
 
@@ -28,4 +29,4 @@ const FirstNameField: React.FC<PropsType> = ({ setUserInfo }) => {
     );
 }
 
-export default FirstNameField;
+export default memo(FirstNameField);

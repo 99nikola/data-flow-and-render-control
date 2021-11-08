@@ -1,46 +1,74 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { isEmail } from "../../validation/Validation";
 import Button from "../atoms/Button/Button";
 import TextFieldState from "../molecules/TextFieldState";
 
+export interface FormType {
+    firstName: "",
+    lastName: "",
+    emailAddress: "",
+    address: ""
+}
+
+let DEFAULT_VALUES: FormType = {
+    firstName: "",
+    lastName: "",
+    emailAddress: "",
+    address: ""
+}
+
 const Form = () => {
 
-    const [ userInfo, setUserInfo ] = useState({});
-    const [ errors, setErrors ] = useState({});
+    const [ userInfo, setUserInfo ] = useState(DEFAULT_VALUES);
+    const [ errors, setErrors ] = useState(DEFAULT_VALUES);
 
     const submitHandler = (e: any) => {
         e.preventDefault();
-
+        if (Object.keys(errors).length !== 0) {
+            console.log("Error: ", errors);
+        }
         console.log(userInfo);
     }
 
     return (
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} noValidate={true}>
             <TextFieldState 
                 name="firstName"
-                setUserInfo={setUserInfo} 
+                setState={setUserInfo}
+                setErrors={setErrors}
                 placeHolder="First Name"
                 />
 
             <TextFieldState 
                 name="lastName"
-                setUserInfo={setUserInfo} 
+                setState={setUserInfo} 
+                setErrors={setErrors}
                 placeHolder="Last Name"
                 />
 
             <TextFieldState 
                 name="emailAddress"
-                setUserInfo={setUserInfo} 
+                setState={setUserInfo} 
+                setErrors={setErrors}
+                validate={isEmail}
+                error={errors.emailAddress}
                 placeHolder="Email Address"
                 type="email"
                 />
 
             <TextFieldState 
                 name="address"
-                setUserInfo={setUserInfo} 
+                setErrors={setErrors}
+                setState={setUserInfo} 
                 placeHolder="Address"
                 />
 
-            <Button type="submit" value="Submit" color="secondary" />
+            <Button 
+                type="submit" 
+                value="Submit" 
+                color="secondary" 
+                
+                />
         </form>
     )
 }

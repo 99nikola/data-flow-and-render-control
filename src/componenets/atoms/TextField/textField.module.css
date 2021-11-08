@@ -1,6 +1,12 @@
+
+
 .inputField {
     margin: 3px;
     height: 40px;
     width: auto;
     font-size: 16px;
+}
+
+.errorMessage {
+    color: red;
 }

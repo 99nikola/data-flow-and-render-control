@@ -3,17 +3,23 @@ import classes from "./textField.module.css";
 export interface TextFieldProps {
     type?: string,
     placeHolder?: string,
-    onChange?: React.ChangeEventHandler<HTMLInputElement>
+    onChange?: React.ChangeEventHandler<HTMLInputElement>,
+    error?: string
 }
 
-const TextField: React.FC<TextFieldProps> = ({ type, placeHolder, onChange }) => {
+const TextField: React.FC<TextFieldProps> = ({ type, placeHolder, onChange, error }) => {
     return (
-        <input 
-            className={classes.inputField}
-            type={type} 
-            placeholder={placeHolder}
-            onChange={onChange}
-        />
+        <div className={classes.field}>
+            <input 
+                className={classes.inputField}
+                type={type} 
+                placeholder={placeHolder}
+                onChange={onChange}
+            />
+            {error && (
+                <p className={classes.errorMessage}>{error}</p>
+            )}
+        </div>
     )
 }
 

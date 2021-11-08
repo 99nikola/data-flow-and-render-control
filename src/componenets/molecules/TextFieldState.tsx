@@ -1,24 +1,41 @@
-import { memo, useCallback, useMemo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { debounceFunction } from "../../utils/Utils";
 import TextField, { TextFieldProps } from "../atoms/TextField/TextField";
+import { FormType } from "../organisms/Form";
 
 interface PropsType extends TextFieldProps {
     name: string,
-    setUserInfo: React.Dispatch<React.SetStateAction<object>>
+    setState: React.Dispatch<React.SetStateAction<FormType>>,
+    setErrors: React.Dispatch<React.SetStateAction<FormType>>,
+    validate?: Function,
+    error?: string
 }
 
-const TextFieldState: React.FC<PropsType> = ({ name, setUserInfo, ...rest }) => {
+const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, validate, error, ...rest }) => {
 
     const changeHandler = useCallback(
         (e: any) => {
-            console.log(e.target.value);
-            setUserInfo((currentState) => {
-                return {
-                    ...currentState,
-                    [name]: e.target.value
-                };
-            });
-        }, [setUserInfo]
+            if (validate) {
+                let isValid: boolean | string = validate(e.target.value);
+                if (typeof isValid === 'string' || !isValid) {
+                    setErrors((currentErrors) => ({
+                        ...currentErrors,
+                        [name]: isValid
+                    }));
+                    return;
+                } else {
+                    setErrors((currentErrors) => ({
+                        ...currentErrors,
+                        [name]: false
+                    }))
+                }
+            }
+
+            setState((currentState) => ({
+                ...currentState,
+                [name]: e.target.value
+            }));
+        }, [setState]
     );
 
     const debounceCallBack = useMemo(() => debounceFunction(changeHandler, 500), [changeHandler]);
@@ -27,6 +44,7 @@ const TextFieldState: React.FC<PropsType> = ({ name, setUserInfo, ...rest }) => 
         <TextField 
             {...rest}
             onChange={debounceCallBack}
+            error={error}
             />
     );
 }

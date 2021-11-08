@@ -7,34 +7,51 @@ interface PropsType extends TextFieldProps {
     name: string,
     setState: React.Dispatch<React.SetStateAction<FormType>>,
     setErrors: React.Dispatch<React.SetStateAction<FormType>>,
-    validate?: Function,
-    error?: string
+    validate?: Array<Function>,
+    error?: string,
+    minLength?: number 
 }
 
-const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, validate, error, ...rest }) => {
+const validateInput = (value: string, validate: Array<Function>) => {
+
+    let validObj = {
+        isValid: true,
+        message: ''
+    }
+
+    for (let func of validate) {
+        let rvalue = func(value);
+
+        if (typeof rvalue === 'string' || rvalue === false) {
+            validObj.isValid = false;
+            validObj.message = rvalue;
+            return validObj;
+        }
+    }
+
+
+    return validObj;
+}
+
+const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, validate, error, minLength, ...rest }) => {
 
     const changeHandler = useCallback(
         (e: any) => {
+            const value = e.target.value;
             if (validate) {
-                let isValid: boolean | string = validate(e.target.value);
-                if (typeof isValid === 'string' || !isValid) {
-                    setErrors((currentErrors) => ({
-                        ...currentErrors,
-                        [name]: isValid
+                let { isValid, message }: { isValid: boolean, message: string } = validateInput(value, validate);
+                if (isValid) {
+                    setState((currentState) => ({
+                        ...currentState,
+                        [name]: value
                     }));
-                    return;
                 } else {
                     setErrors((currentErrors) => ({
                         ...currentErrors,
-                        [name]: false
-                    }))
+                        [name]: message
+                    }));
                 }
             }
-
-            setState((currentState) => ({
-                ...currentState,
-                [name]: e.target.value
-            }));
         }, [setState]
     );
 

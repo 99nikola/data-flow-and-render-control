@@ -50,7 +50,9 @@ const Form = () => {
                 name="emailAddress"
                 setState={setUserInfo} 
                 setErrors={setErrors}
-                validate={isEmail}
+                validate={[
+                    isEmail
+                ]}
                 error={errors.emailAddress}
                 placeHolder="Email Address"
                 type="email"

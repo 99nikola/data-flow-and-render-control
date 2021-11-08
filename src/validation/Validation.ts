@@ -4,3 +4,9 @@ export const isEmail = (email: string) => {
         return true;
     return 'Please enter a valid email address'
 }
+
+export const minLength = (value: string, min: number) => {
+    if (value.length < min)
+        return true;
+    return `Input must be at least ${min} characters long`;
+}

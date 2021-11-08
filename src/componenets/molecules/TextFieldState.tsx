@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { debounceFunction } from "../../utils/Utils";
 import TextField, { TextFieldProps } from "../atoms/TextField/TextField";
 
@@ -9,21 +9,24 @@ interface PropsType extends TextFieldProps {
 
 const TextFieldState: React.FC<PropsType> = ({ name, setUserInfo, ...rest }) => {
 
-    const changeHandler = (e: any) => {
+    const changeHandler = useCallback(
+        (e: any) => {
+            console.log(e.target.value);
+            setUserInfo((currentState) => {
+                return {
+                    ...currentState,
+                    [name]: e.target.value
+                };
+            });
+        }, [setUserInfo]
+    );
 
-        setUserInfo((currentState) => {
-            return {
-                ...currentState,
-                [name]: e.target.value
-            };
-        });
-
-    }
+    const debounceCallBack = useMemo(() => debounceFunction(changeHandler, 500), [changeHandler]);
 
     return (
         <TextField 
             {...rest}
-            onChange={debounceFunction(changeHandler, 500)}
+            onChange={debounceCallBack}
             />
     );
 }

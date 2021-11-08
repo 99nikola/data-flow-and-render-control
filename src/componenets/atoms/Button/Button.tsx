@@ -1,3 +1,4 @@
+import { memo } from "react";
 import classes from "./button.module.css";
 
 interface ButtonProps {
@@ -22,4 +23,4 @@ Button.defaultProps = {
     value: "Submit",
     color: "primary"
 }
-export default Button
+export default memo(Button);

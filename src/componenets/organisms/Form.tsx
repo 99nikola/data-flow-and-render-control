@@ -7,14 +7,10 @@ const Form = () => {
     const [ userInfo, setUserInfo ] = useState({});
     const [ errors, setErrors ] = useState({});
 
-    useEffect(() => {
-        console.log(userInfo);
-    }, [userInfo]);
-
     const submitHandler = (e: any) => {
         e.preventDefault();
-        console.log(e);
 
+        console.log(userInfo);
     }
 
     return (
@@ -43,8 +39,6 @@ const Form = () => {
                 setUserInfo={setUserInfo} 
                 placeHolder="Address"
                 />
-
-
 
             <Button type="submit" value="Submit" color="secondary" />
         </form>

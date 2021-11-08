@@ -1,21 +1,20 @@
 import { memo } from "react";
-import { debounceFunction } from "../../../utils/Utils";
-import TextField from "../../atoms/TextField/TextField";
+import { debounceFunction } from "../../utils/Utils";
+import TextField, { TextFieldProps } from "../atoms/TextField/TextField";
 
-interface PropsType {
+interface PropsType extends TextFieldProps {
+    name: string,
     setUserInfo: React.Dispatch<React.SetStateAction<object>>
 }
 
-const FirstNameField: React.FC<PropsType> = ({ setUserInfo }) => {
+const TextFieldState: React.FC<PropsType> = ({ name, setUserInfo, ...rest }) => {
 
     const changeHandler = (e: any) => {
-
-        console.log(e.target.value);
 
         setUserInfo((currentState) => {
             return {
                 ...currentState,
-                firstName: e.target.value
+                [name]: e.target.value
             };
         });
 
@@ -23,10 +22,10 @@ const FirstNameField: React.FC<PropsType> = ({ setUserInfo }) => {
 
     return (
         <TextField 
-            placeHolder="First Name" 
+            {...rest}
             onChange={debounceFunction(changeHandler, 500)}
             />
     );
 }
 
-export default memo(FirstNameField);
+export default memo(TextFieldState);

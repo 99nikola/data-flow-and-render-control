@@ -1,12 +1,12 @@
 import classes from "./textField.module.css";
 
-interface PropsType {
+export interface TextFieldProps {
     type?: string,
     placeHolder?: string,
     onChange?: React.ChangeEventHandler<HTMLInputElement>
 }
 
-const TextField: React.FC<PropsType> = ({ type, placeHolder, onChange }) => {
+const TextField: React.FC<TextFieldProps> = ({ type, placeHolder, onChange }) => {
     return (
         <input 
             className={classes.inputField}

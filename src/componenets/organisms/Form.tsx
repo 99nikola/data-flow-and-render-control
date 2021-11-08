@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "../atoms/Button/Button";
-import EmailField from "../molecules/fields/EmailField";
-import FirstNameField from "../molecules/fields/FirstNameField";
-import LastNameField from "../molecules/fields/LastNameField";
+import TextFieldState from "../molecules/TextFieldState";
 
 const Form = () => {
 
@@ -21,9 +19,33 @@ const Form = () => {
 
     return (
         <form onSubmit={submitHandler}>
-            <FirstNameField setUserInfo={setUserInfo} />
-            <LastNameField />
-            <EmailField />
+            <TextFieldState 
+                name="firstName"
+                setUserInfo={setUserInfo} 
+                placeHolder="First Name"
+                />
+
+            <TextFieldState 
+                name="lastName"
+                setUserInfo={setUserInfo} 
+                placeHolder="Last Name"
+                />
+
+            <TextFieldState 
+                name="emailAddress"
+                setUserInfo={setUserInfo} 
+                placeHolder="Email Address"
+                type="email"
+                />
+
+            <TextFieldState 
+                name="address"
+                setUserInfo={setUserInfo} 
+                placeHolder="Address"
+                />
+
+
+
             <Button type="submit" value="Submit" color="secondary" />
         </form>
     )

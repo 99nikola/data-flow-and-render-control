@@ -5,8 +5,6 @@
  * @returns Throttled function, function that will be executed every `delay`ms
  */
 
-import { exec } from "child_process";
-
 export const throttleFunction = (callBack: Function, delay: number) => {
     let timerId: NodeJS.Timeout | undefined;
     
@@ -53,7 +51,7 @@ export const debounceFunction = (callBack: Function, delay: number) => {
             return;
         clearTimeout(timerId);
     }
-    
+
     return executor;
 }
 

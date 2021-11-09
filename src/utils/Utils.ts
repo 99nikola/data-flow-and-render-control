@@ -34,10 +34,8 @@ export const throttleFunction = (callBack: Function, delay: number) => {
 
 export const debounceFunction = (callBack: Function, delay: number) => {
     return (props: any) => {
-        if (timerIds.has(callBack)) {
+        if (timerIds.has(callBack)) 
             clearTimeout(timerIds.get(callBack));
-            timerIds.delete(callBack);
-        }
     
 
         let id: any = setTimeout(callBack.bind(null, props), delay);

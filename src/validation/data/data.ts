@@ -1,15 +1,14 @@
+import { compose } from "underscore"
 import { RulesType } from "../../componenets/molecules/TextFieldState"
-import { isEmail } from "../Validation"
+import { isEmail, isTest } from "../Validation"
 
 export interface ValidationType {
-    validation?: Array<Function>,
+    validation?: Function,
     rules?: RulesType
 }
 
 export const email: ValidationType = {
-    validation: [
-        isEmail
-    ],
+    validation: compose(isTest(true), isEmail),
     rules: {
         required: true,
         minLength: 6,

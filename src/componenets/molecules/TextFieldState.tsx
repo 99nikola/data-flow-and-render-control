@@ -18,26 +18,6 @@ interface PropsType extends TextFieldProps {
     rules?: RulesType 
 }
 
-const validateInput = (value: string, validate: Function) => {
-
-    let validObj = {
-        isValid: true,
-        message: ''
-    }
-    console.log(validate(value));
-    // for (let func of validate) {
-    //     let rvalue = func(value);
-
-    //     if (typeof rvalue === 'string' || rvalue === false) {
-    //         validObj.isValid = false;
-    //         validObj.message = rvalue;
-    //         return validObj;
-    //     }
-    // }
-
-    return validObj;
-}
-
 const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, validate, rules, ...rest }) => {
 
     const updateError = useCallback((message: string | boolean) => {

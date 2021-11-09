@@ -1,5 +1,5 @@
-import { memo } from "react";
 import classes from "./button.module.css";
+import { memo } from "react";
 
 interface ButtonProps {
     type?: "submit" | "button" | "reset",
@@ -10,8 +10,9 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({ type, value, color }) => {
     return (
         <button 
-            className={`${classes.button} ${color}`}
+            className={classes.button}
             type={type}
+            data-color={color}
             >
             {value}
         </button>

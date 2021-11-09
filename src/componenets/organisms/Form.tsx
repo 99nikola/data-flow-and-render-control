@@ -68,7 +68,7 @@ const Form = () => {
             <Button 
                 type="submit" 
                 value="Submit" 
-                color="secondary" 
+                color="primary" 
                 
                 />
         </form>

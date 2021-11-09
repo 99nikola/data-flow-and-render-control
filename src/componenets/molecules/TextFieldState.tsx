@@ -33,7 +33,7 @@ const validateInput = (value: string, validate: Array<Function>) => {
     return validObj;
 }
 
-const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, validate, error, minLength, ...rest }) => {
+const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, validate, minLength, ...rest }) => {
 
     const changeHandler = useCallback(
         (e: any) => {
@@ -70,7 +70,6 @@ const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, valida
         <TextField 
             {...rest}
             onChange={debounceCallBack}
-            error={error}
             />
     );
 }

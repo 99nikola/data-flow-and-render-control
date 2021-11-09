@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { address, email, name } from "../../validation/data/data";
 import { isEmail } from "../../validation/Validation";
 import Button from "../atoms/Button/Button";
-import TextFieldState from "../molecules/TextFieldState";
+import TextFieldState, { RulesType } from "../molecules/TextFieldState";
 
 export interface FormType {
     firstName: "",
@@ -16,10 +17,6 @@ let DEFAULT_VALUES: FormType = {
     emailAddress: "",
     address: ""
 }
-
-const emailValidation = [
-    isEmail
-]
 
 const Form = () => {
 
@@ -39,6 +36,7 @@ const Form = () => {
         <form onSubmit={submitHandler} noValidate={true}>
             <TextFieldState 
                 name="firstName"
+                rules={name.rules}
                 setState={setUserInfo}
                 setErrors={setErrors}
                 placeHolder="First Name"
@@ -55,7 +53,8 @@ const Form = () => {
                 name="emailAddress"
                 setState={setUserInfo} 
                 setErrors={setErrors}
-                validate={emailValidation}
+                validate={email.validation}
+                rules={email.rules}
                 error={errors.emailAddress}
                 placeHolder="Email Address"
                 type="email"
@@ -63,6 +62,7 @@ const Form = () => {
 
             <TextFieldState 
                 name="address"
+                rules={address.rules}
                 setErrors={setErrors}
                 setState={setUserInfo} 
                 placeHolder="Address"

@@ -1,3 +1,6 @@
+import _ from "underscore";
+
+
 /**
  * 
  * @param  callBack CallBack function to be executed
@@ -53,6 +56,11 @@ export const debounceFunction = (callBack: Function, delay: number) => {
     }
 
     return executor;
+}
+
+
+const compose = (...args: any) => {
+    return _.compose(...args);
 }
 
 

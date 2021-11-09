@@ -6,9 +6,20 @@ export const isEmail = (email: string) => {
 }
 
 export const minLength = (value: string, min: number) => {
-    if (value.length < min)
+    if (value.length >= min)
         return true;
     return `Input must be at least ${min} characters long`;
 }
 
-// export const 
+export const maxLength = (value: string, max: number) => {
+    if (value.length <= max)
+        return true;
+    return `Input could be up to ${max} characters long`;
+}
+
+export const required = (input: string) => {
+    if (!input || input.length === 0)
+        return 'Required';
+    return true;
+}
+

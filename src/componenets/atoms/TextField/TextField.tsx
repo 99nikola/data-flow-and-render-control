@@ -15,6 +15,7 @@ const TextField: React.FC<TextFieldProps> = ({ type, placeHolder, onChange, erro
                 type={type} 
                 placeholder={placeHolder}
                 onChange={onChange}
+                autoComplete="off"
             />
             {error && (
                 <p className={classes.errorMessage}>{error}</p>

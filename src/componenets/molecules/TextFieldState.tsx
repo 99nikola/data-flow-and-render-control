@@ -1,97 +1,90 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { debounceFunction, throttleFunction } from "../../utils/Utils";
-import { maxLength, minLength, required, ValidationError } from "../../validation/Validation";
+import { debounceFunction } from "../../utils/Utils";
+import { IValidationRuleKey, ValidationRuleFactory } from "../../validation/data/data";
 import TextField, { TextFieldProps } from "../atoms/TextField/TextField";
-import { FormType } from "../organisms/Form";
+import { FormErrorValue, FormValidationState } from "../organisms/Form";
 
-export interface RulesType {
-    required?: boolean | string,
-    minLength?: number,
-    maxLength?: number 
-}
+export type DictionaryType<T> = { [key: string]: T };
 
 interface PropsType extends TextFieldProps {
-    name: string,
-    setState: React.Dispatch<React.SetStateAction<FormType>>,
-    setErrors: React.Dispatch<React.SetStateAction<FormType>>,
+    name: string;
+    setState: React.Dispatch<React.SetStateAction<DictionaryType<string>>>;
+    setErrors: React.Dispatch<React.SetStateAction<DictionaryType<FormErrorValue>>>;
+    setFormValidState: React.Dispatch<React.SetStateAction<FormValidationState>>;
     validate?: Function,
-    rules?: RulesType 
+    rules?: IValidationRuleKey; 
 }
 
-const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, validate, rules, ...rest }) => {
+const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, rules, setFormValidState, ...rest }) => {
+    const internalRules = useMemo(() => {
+        if (!rules) {
+            return [];
+        }
 
-    const updateError = useCallback((message: string | boolean) => {
-        setErrors((currentErrors) => ({
-            ...currentErrors,
-            [name]: message
-        }));
-    }, [setErrors]);
+        const output = [];
+        for (const [key, value] of Object.entries(rules) as [keyof IValidationRuleKey, any][]) {
+            const rule = ValidationRuleFactory.create(key, value);
+            if (rule) {
+                output.push(rule);
+            }
+        }
+        return output;
+    }, [rules]);
 
-    const updateState = useCallback((value: string) => {
-        setState((currentState) => ({
+    const validate = useCallback(function validateValue(input: any) {
+        try {
+            internalRules.forEach(rule => {
+                rule.validate(input);
+            });
+
+            setErrors(errors => {
+                if (Object.values(errors).every(error => !error.hasError)) {
+                    setFormValidState(FormValidationState.VALID);
+                }
+                return errors;
+            });
+        } catch (error: any) {
+            setErrors(errors => ({
+                ...errors,
+                [name]: {
+                    hasError: true,
+                    errorMessage: error.message
+                }
+            }));
+            setFormValidState(FormValidationState.INVALID);
+        }
+    }, [internalRules]);
+
+    const debouncedValidate = useMemo(() => debounceFunction(validate, 1000), [validate])
+
+    const changeValue = useCallback(function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
+        debouncedValidate.cancel();
+        debouncedValidate(event.target.value);
+        setErrors((errors: DictionaryType<FormErrorValue>) => {
+            if (errors[name].hasError) {
+                return {
+                    ...errors,
+                    [name]: {
+                        hasError: false,
+                        errorMessage: ""
+                    }
+                }
+            }
+
+            setFormValidState(FormValidationState.VALIDATING);
+
+            return errors;
+        });
+        setState(currentState => ({
             ...currentState,
-            [name]: value
+            [name]: event.target.value
         }));
-    }, [setState]);
-
-
-    const checkValidation = useCallback((input: string) => {
-        let valid: boolean | ValidationError = validate!(input);
-        if (valid instanceof ValidationError) {
-            updateError(valid.error);
-            return false;
-        }
-        updateError(false); // clean error
-        return true;
-    }, [setErrors]);
-
-    const checkRules = useCallback((input: string) => {
-        if (rules?.required) {
-            let req: boolean | string = required(input);
-            if (typeof req === 'string' || !req) {
-                updateError(req); 
-                return false;
-            }
-        }
-
-        if (rules?.minLength) {
-            let minL: boolean | string = minLength(input, rules.minLength);
-            if (typeof minL === 'string' || !minL) {
-                updateError(minL); 
-                return false;
-            }
-        }
-        
-        if (rules?.maxLength) {
-            let maxL: boolean | string = maxLength(input, rules.maxLength);
-            if (typeof maxL === 'string' || !maxL) {
-                updateError(maxL); 
-                return false;
-            }
-        }
-        return true;
-    }, [updateError]);
-
-    const changeHandler = useCallback((e: any) => {
-        const value = e.target.value;
-
-        if (rules && !checkRules(value)) 
-            return;
-
-        if (validate && !checkValidation(value))
-            return;
-
-        updateState(value);
-
-        }, [ updateState, checkValidation, checkRules ] // maybe chage to [ setState, setErrors ]
-    );
-
-    const debounceCallBack = useMemo(() => debounceFunction(changeHandler, 1000), [changeHandler]);
+    }, [debouncedValidate, name, setFormValidState]);
 
     return (
         <TextField 
             {...rest}
-            onChange={debounceCallBack}
+            onChange={changeValue}
             />
     );
 }

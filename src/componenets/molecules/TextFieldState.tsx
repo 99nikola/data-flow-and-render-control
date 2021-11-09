@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { debounceFunction } from "../../utils/Utils";
+import { debounceFunction, throttleFunction } from "../../utils/Utils";
 import TextField, { TextFieldProps } from "../atoms/TextField/TextField";
 import { FormType } from "../organisms/Form";
 
@@ -64,7 +64,7 @@ const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, valida
         }, [setState]
     );
 
-    const debounceCallBack = useMemo(() => debounceFunction(changeHandler, 500), [changeHandler]);
+    const debounceCallBack = useMemo(() => throttleFunction(changeHandler, 1000), [changeHandler]);
 
     return (
         <TextField 

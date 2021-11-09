@@ -17,6 +17,10 @@ let DEFAULT_VALUES: FormType = {
     address: ""
 }
 
+const emailValidation = [
+    isEmail
+]
+
 const Form = () => {
 
     const [ userInfo, setUserInfo ] = useState(DEFAULT_VALUES);
@@ -26,6 +30,7 @@ const Form = () => {
         e.preventDefault();
         if (Object.keys(errors).length !== 0) {
             console.log("Error: ", errors);
+            return;
         }
         console.log(userInfo);
     }
@@ -50,9 +55,7 @@ const Form = () => {
                 name="emailAddress"
                 setState={setUserInfo} 
                 setErrors={setErrors}
-                validate={[
-                    isEmail
-                ]}
+                validate={emailValidation}
                 error={errors.emailAddress}
                 placeHolder="Email Address"
                 type="email"

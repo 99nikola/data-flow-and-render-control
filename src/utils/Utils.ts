@@ -1,5 +1,3 @@
-let timerIds: Map<Function, number> = new Map<Function, number>();
-
 /**
  * 
  * @param  callBack CallBack function to be executed
@@ -7,21 +5,29 @@ let timerIds: Map<Function, number> = new Map<Function, number>();
  * @returns Throttled function, function that will be executed every `delay`ms
  */
 
+import { exec } from "child_process";
+
 export const throttleFunction = (callBack: Function, delay: number) => {
-    return (props: any) => {
-        if (timerIds.has(callBack))
+    let timerId: NodeJS.Timeout | undefined;
+    
+    const executor = (args: any) => {
+        if (timerId)
             return;
-
         
-        let id: any = setTimeout(() => {
-            timerIds.delete(callBack)
-            callBack(props);
+        timerId = setTimeout(() => {
+            callBack(args);
+            timerId = undefined;
         }, delay);
-        timerIds.set(callBack, id);
     }
+
+    executor.cancel = () => {
+        if (!timerId)
+            return;
+        clearTimeout(timerId);
+    }
+
+    return executor;
 }
-
-
 
 
 /**
@@ -33,12 +39,24 @@ export const throttleFunction = (callBack: Function, delay: number) => {
 
 
 export const debounceFunction = (callBack: Function, delay: number) => {
-    return (props: any) => {
-        if (timerIds.has(callBack)) 
-            clearTimeout(timerIds.get(callBack));
-    
+    let timerId: NodeJS.Timeout;
 
-        let id: any = setTimeout(callBack.bind(null, props), delay);
-        timerIds.set(callBack, id);
+    const executor = (args: any) => {
+        if (timerId) 
+            clearTimeout(timerId);
+    
+        timerId = setTimeout(callBack.bind(this, args), delay);
     }
+
+    executor.cancel = () => {
+        if (!timerId)
+            return;
+        clearTimeout(timerId);
+    }
+    
+    return executor;
 }
+
+
+
+

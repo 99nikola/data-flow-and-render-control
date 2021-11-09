@@ -64,7 +64,7 @@ const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, valida
         }, [setState]
     );
 
-    const debounceCallBack = useMemo(() => throttleFunction(changeHandler, 1000), [changeHandler]);
+    const debounceCallBack = useMemo(() => debounceFunction(changeHandler, 1000), [changeHandler]);
 
     return (
         <TextField 

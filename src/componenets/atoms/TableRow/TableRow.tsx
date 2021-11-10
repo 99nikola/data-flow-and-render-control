@@ -1,33 +1,31 @@
 import classes from "./tableRow.module.css";
 import React, { memo } from "react";
+import { IUser } from "../../../typescript/interfaces/User";
 
-export interface TableRowProps {
-    cells: Array<string | number>
+export interface TableRowProps extends IUser {
     Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement> & {
         title?: string | undefined;
     }>,
     onClick?: React.MouseEventHandler<HTMLDivElement>
-    iconId?: string
 }
 
-const TableRow: React.FC<TableRowProps> = ({ cells, Icon, onClick, iconId }) => {
+const TableRow: React.FC<TableRowProps> = (props: TableRowProps) => {
     return (
         <tr>
-            {cells.map((cell, index) => (
-                <td key={index}>
-                    {cell}
-                </td>
-            ))}
-            {Icon && (
+            <td>{props.firstName}</td>
+            <td>{props.lastName}</td>
+            <td>{props.emailAddress}</td>
+            <td>{props.address}</td>
+            {props.Icon && (
                 <th className={classes.iconCell}>
                     <div
                         className={classes.iconContainer}
-                         onClick={onClick}
-                         id={iconId}>
-                        <Icon   
+                        onClick={props.onClick}
+                    >
+                        <props.Icon   
                             className={classes.icon}
                             pointerEvents="none"
-                            />
+                        />
                     </div>
                 </th>
             )}

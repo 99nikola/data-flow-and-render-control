@@ -2,10 +2,11 @@ import classes from "./table.module.css";
 import { memo, useCallback } from "react";
 import TableRow from "../../atoms/TableRow/TableRow";
 import { ReactComponent as DeleteIcon } from "../../../res/delete.svg";
+import { IUser } from "../../../typescript/interfaces/User";
 
 const Table: React.FC<{
-    users: Record<string, string | number>[],
-    setUsers: React.Dispatch<React.SetStateAction<Record<string, string>[]>>
+    users: IUser[],
+    setUsers: React.Dispatch<React.SetStateAction<IUser[]>>;
 }> = ({ users, setUsers }) => {
 
     const deleteHandler = useCallback((event: any) => {
@@ -32,16 +33,13 @@ const Table: React.FC<{
                     </tr>
 
                     {users.map((user, index) => {
-                        const { id, ...rest } = user;
-
                         return (
                             <TableRow 
                                 key={index}
-                                cells={Object.values(rest)} 
+                                {...user}
                                 Icon={DeleteIcon}
                                 onClick={deleteHandler}
-                                iconId={id as string}
-                                />);
+                            />);
                     })}
 
                 </tbody>

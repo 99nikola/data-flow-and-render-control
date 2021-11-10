@@ -5,13 +5,9 @@ import { isEmail } from "../../../validation/Validation";
 import Button from "../../atoms/Button/Button";
 import TextFieldState, { DictionaryType } from "../../molecules/TextFieldState";
 import nextId from "react-id-generator";
+import { IUser } from "../../../typescript/interfaces/User";
 
-export interface FormType {
-    firstName: "",
-    lastName: "",
-    emailAddress: "",
-    address: ""
-}
+export interface FormType extends Omit<IUser, "id">{}
 
 export type FormErrorValue = {
     hasError: boolean;
@@ -37,7 +33,7 @@ let DEFAULT_ERROR_VALUES: DictionaryType<FormErrorValue> = {
     }
 }
 
-let DEFAULT_VALUES: DictionaryType<string> = {
+let DEFAULT_VALUES: FormType = {
     firstName: "",
     lastName: "",
     emailAddress: "",
@@ -51,7 +47,7 @@ export enum FormValidationState {
 }
 
 const Form: React.FC<{
-    setUsers: React.Dispatch<React.SetStateAction<Record<string, string>[]>>
+    setUsers: React.Dispatch<React.SetStateAction<IUser[]>>
 }> = ({ setUsers }) => {
 
     const [ userInfo, setUserInfo ] = useState(DEFAULT_VALUES);

@@ -2,13 +2,13 @@ import React, { memo, useCallback, useMemo } from "react";
 import { debounceFunction } from "../../utils/Utils";
 import { IValidationRuleKey, ValidationRuleFactory } from "../../validation/data/data";
 import TextField, { TextFieldProps } from "../atoms/TextField/TextField";
-import { FormErrorValue, FormValidationState } from "../organisms/form/Form";
+import { FormErrorValue, FormType, FormValidationState } from "../organisms/form/Form";
 
 export type DictionaryType<T> = { [key: string]: T };
 
 interface PropsType extends TextFieldProps {
     name: string;
-    setState: React.Dispatch<React.SetStateAction<DictionaryType<string>>>;
+    setState: React.Dispatch<React.SetStateAction<FormType>>;
     setErrors: React.Dispatch<React.SetStateAction<DictionaryType<FormErrorValue>>>;
     setFormValidState: React.Dispatch<React.SetStateAction<FormValidationState>>;
     validate?: Function,

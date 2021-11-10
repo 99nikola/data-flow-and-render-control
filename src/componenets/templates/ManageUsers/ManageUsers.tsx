@@ -2,8 +2,9 @@ import classes from "./manageUsers.module.css";
 import Form from "../../organisms/form/Form";
 import Table from "../../organisms/table/Table";
 import { useState } from "react";
+import { IUser } from "../../../typescript/interfaces/User";
 
-const DEFAULT_USERS: Record<string, string>[] = [];
+const DEFAULT_USERS: IUser[] = [];
 
 const ManageUsers = () => {
 
@@ -11,7 +12,7 @@ const ManageUsers = () => {
 
     return (
         <div className={classes.container}>
-            <Form setUsers={setUsers}/>
+            <Form setUsers={setUsers} />
             <Table users={users} setUsers={setUsers} />
         </div>
     )

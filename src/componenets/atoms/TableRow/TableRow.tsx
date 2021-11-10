@@ -6,10 +6,17 @@ export interface TableRowProps extends IUser {
     Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement> & {
         title?: string | undefined;
     }>,
-    onClick?: React.MouseEventHandler<HTMLDivElement>
+    onClick(user: Partial<IUser>): void;
 }
 
 const TableRow: React.FC<TableRowProps> = (props: TableRowProps) => {
+    function onClick() {
+        props.onClick({
+            id: props.id,
+            firstName: props.firstName,
+        });
+    }
+
     return (
         <tr>
             <td>{props.firstName}</td>
@@ -20,7 +27,7 @@ const TableRow: React.FC<TableRowProps> = (props: TableRowProps) => {
                 <th className={classes.iconCell}>
                     <div
                         className={classes.iconContainer}
-                        onClick={props.onClick}
+                        onClick={onClick}
                     >
                         <props.Icon   
                             className={classes.icon}

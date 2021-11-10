@@ -9,16 +9,15 @@ const Table: React.FC<{
     setUsers: React.Dispatch<React.SetStateAction<IUser[]>>;
 }> = ({ users, setUsers }) => {
 
-    const deleteHandler = useCallback((event: any) => {
-        const id = event.target.id;
-        const userToDelete = users.find(user => user.id === id);
+    const deleteHandler = useCallback((user: Partial<IUser>) => {
+        const id = user.id;
+        const label = user.firstName || id || "";
 
-        const confirm = window.confirm("Are you sure you want to delete user: " + userToDelete!.firstName);
-        if (!confirm)
-            return;
+        const confirm = window.confirm("Are you sure you want to delete user: " + label);
+        if (!confirm) return;
 
         setUsers((users) => users.filter(user => user.id !== id));
-    }, [setUsers, users]);
+    }, [setUsers]);
 
     return (
         <div className={classes.container}>
@@ -32,10 +31,10 @@ const Table: React.FC<{
                         <th>Remove</th>
                     </tr>
 
-                    {users.map((user, index) => {
+                    {users.map((user) => {
                         return (
                             <TableRow 
-                                key={index}
+                                key={user.id}
                                 {...user}
                                 Icon={DeleteIcon}
                                 onClick={deleteHandler}

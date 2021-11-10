@@ -11,13 +11,13 @@ const Table: React.FC<{
     const deleteHandler = useCallback((event: any) => {
         const id = event.target.id;
         const user = users.find(user => user.id === id);
-        const confirm = window.confirm("Are you sure you want to delete user: " + user!.firstName);
 
+        const confirm = window.confirm("Are you sure you want to delete user: " + user!.firstName);
         if (!confirm)
             return;
 
         setUsers((users) => users.filter(user => user.id !== id));
-    }, [setUsers]);
+    }, [setUsers, users]);
 
     return (
         <div className={classes.container}>

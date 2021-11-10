@@ -1,24 +1,12 @@
 import classes from "./table.module.css";
-import { memo, useCallback } from "react";
-import TableRow from "../../atoms/TableRow/TableRow";
-import { ReactComponent as DeleteIcon } from "../../../res/delete.svg";
+import { memo } from "react";
 import { IUser } from "../../../typescript/interfaces/User";
+import UserRow from "../../molecules/UserRow/UserRow";
 
 const Table: React.FC<{
     users: IUser[],
     setUsers: React.Dispatch<React.SetStateAction<IUser[]>>;
 }> = ({ users, setUsers }) => {
-
-    const deleteHandler = useCallback((user: Partial<IUser>) => {
-        const id = user.id;
-        const label = user.firstName || id || "";
-
-        const confirm = window.confirm("Are you sure you want to delete user: " + label);
-        if (!confirm) return;
-
-        setUsers((users) => users.filter(user => user.id !== id));
-    }, [setUsers]);
-
     return (
         <div className={classes.container}>
             <table className={classes.item}>
@@ -33,11 +21,10 @@ const Table: React.FC<{
 
                     {users.map((user) => {
                         return (
-                            <TableRow 
+                            <UserRow 
                                 key={user.id}
                                 {...user}
-                                Icon={DeleteIcon}
-                                onClick={deleteHandler}
+                                deleteEntity={setUsers}
                             />);
                     })}
 

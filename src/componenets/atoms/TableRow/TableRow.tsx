@@ -1,35 +1,28 @@
 import classes from "./tableRow.module.css";
 import React, { memo } from "react";
-import { IUser } from "../../../typescript/interfaces/User";
+import { IIdentifiable } from "../../../typescript/interfaces/Identity";
+import { ReactComponent as DeleteIcon } from "../../../res/delete.svg";
 
-export interface TableRowProps extends IUser {
-    Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement> & {
-        title?: string | undefined;
-    }>,
-    onClick(user: Partial<IUser>): void;
+export interface TableRowProps extends IIdentifiable {
+    children: any;
+    onDeleteEntity?: (id: string) => void;
 }
 
 const TableRow: React.FC<TableRowProps> = (props: TableRowProps) => {
     function onClick() {
-        props.onClick({
-            id: props.id,
-            firstName: props.firstName,
-        });
+        props.onDeleteEntity!(props.id);
     }
 
     return (
         <tr>
-            <td>{props.firstName}</td>
-            <td>{props.lastName}</td>
-            <td>{props.emailAddress}</td>
-            <td>{props.address}</td>
-            {props.Icon && (
+            {props.children}
+            {typeof props.onDeleteEntity == "function" && (
                 <th className={classes.iconCell}>
                     <div
                         className={classes.iconContainer}
                         onClick={onClick}
                     >
-                        <props.Icon   
+                        <DeleteIcon   
                             className={classes.icon}
                             pointerEvents="none"
                         />
@@ -40,4 +33,4 @@ const TableRow: React.FC<TableRowProps> = (props: TableRowProps) => {
     );
 }
 
-export default memo(TableRow);
+export default TableRow;

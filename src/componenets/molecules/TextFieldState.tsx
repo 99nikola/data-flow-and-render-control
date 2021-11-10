@@ -2,7 +2,7 @@ import React, { memo, useCallback, useMemo } from "react";
 import { debounceFunction } from "../../utils/Utils";
 import { IValidationRuleKey, ValidationRuleFactory } from "../../validation/data/data";
 import TextField, { TextFieldProps } from "../atoms/TextField/TextField";
-import { FormErrorValue, FormValidationState } from "../organisms/Form";
+import { FormErrorValue, FormValidationState } from "../organisms/form/Form";
 
 export type DictionaryType<T> = { [key: string]: T };
 

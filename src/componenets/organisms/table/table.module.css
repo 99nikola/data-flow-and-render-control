@@ -1,0 +1,29 @@
+.container {
+    flex: 5;
+    display: flex;
+    justify-content: center;
+}
+
+
+.item {
+    width: 100%;
+    height: max-content;
+}
+
+table, th, td {
+    border: 3px solid white;
+    border-collapse: collapse;
+    border-radius: 6px;
+    color: whitesmoke;
+    size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 5px;
+}
+
+th {
+    background-color: rgb(189, 141, 123);
+}
+
+td {
+    background-color: slategrey;
+}

@@ -1,10 +1,10 @@
 import './App.css';
-import Form from './componenets/organisms/Form';
+import ManageUsers from './componenets/templates/ManageUsers/ManageUsers';
 
 function App() {
   return (
     <div>
-      <Form />
+      <ManageUsers />
     </div>
   );
 }

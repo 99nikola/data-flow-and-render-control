@@ -1,0 +1,21 @@
+.iconCell {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.iconContainer {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+.iconContainer:hover {
+    scale: 1.1;
+    cursor: pointer;
+}
+.icon {
+    fill: whitesmoke;
+    height: 100%;
+    width: 100%;
+}

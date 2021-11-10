@@ -1,10 +1,10 @@
 import classes from "./form.module.css";
-import { mergeClasses } from "@material-ui/styles";
 import { memo, useState } from "react";
 import { address, email, name } from "../../../validation/data/data";
 import { isEmail } from "../../../validation/Validation";
 import Button from "../../atoms/Button/Button";
 import TextFieldState, { DictionaryType } from "../../molecules/TextFieldState";
+import nextId from "react-id-generator";
 
 export interface FormType {
     firstName: "",
@@ -69,7 +69,10 @@ const Form: React.FC<{
 
         setUsers(users => [
             ...users,
-            userInfo
+            {
+                ...userInfo,
+                id: nextId()
+            }
         ]);
     }
 

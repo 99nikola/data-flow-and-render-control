@@ -1,11 +1,23 @@
 import classes from "./table.module.css";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import TableRow from "../../atoms/TableRow/TableRow";
 import { ReactComponent as DeleteIcon } from "../../../res/delete.svg";
 
 const Table: React.FC<{
-    users: Record<string, string | number>[]
-}> = ({ users }) => {
+    users: Record<string, string | number>[],
+    setUsers: React.Dispatch<React.SetStateAction<Record<string, string>[]>>
+}> = ({ users, setUsers }) => {
+
+    const deleteHandler = useCallback((event: any) => {
+        const id = event.target.id;
+        const user = users.find(user => user.id === id);
+        const confirm = window.confirm("Are you sure you want to delete user: " + user!.firstName);
+
+        if (!confirm)
+            return;
+
+        setUsers((users) => users.filter(user => user.id !== id));
+    }, [setUsers]);
 
     return (
         <div className={classes.container}>
@@ -20,11 +32,15 @@ const Table: React.FC<{
                     </tr>
 
                     {users.map((user, index) => {
+                        const { id, ...rest } = user;
+
                         return (
                             <TableRow 
                                 key={index}
-                                cells={Object.values(user)} 
+                                cells={Object.values(rest)} 
                                 Icon={DeleteIcon}
+                                onClick={deleteHandler}
+                                iconId={id as string}
                                 />);
                     })}
 

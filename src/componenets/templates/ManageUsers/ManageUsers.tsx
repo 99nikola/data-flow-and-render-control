@@ -12,7 +12,7 @@ const ManageUsers = () => {
     return (
         <div className={classes.container}>
             <Form setUsers={setUsers}/>
-            <Table users={users}/>
+            <Table users={users} setUsers={setUsers} />
         </div>
     )
 }

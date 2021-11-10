@@ -67,15 +67,13 @@ const Form: React.FC<{
 
         setFormValidState(FormValidationState.VALID);
 
-        let user = userInfo;
-        user.id = nextId();
-
-        setUsers(users => {
-            let clone = users.slice();
-            clone.push(user);
-
-            return clone;
-        });
+        setUsers(users => ([
+            ...users,
+            {
+                ...userInfo,
+                id: nextId()
+            }
+        ]));
     }
 
     return (

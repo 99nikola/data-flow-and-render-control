@@ -1,4 +1,3 @@
-import classes from "./tableRow.module.css";
 import React, { memo } from "react";
 
 export interface TableRowProps {
@@ -17,8 +16,9 @@ const TableRow: React.FC<TableRowProps> = ({ cells, Icon }) => {
                 </td>
             ))}
             {Icon && (
-                <Icon 
-                    className={classes.icon}/>
+                <th>
+                    <Icon />
+                </th>
             )}
         </tr>
     );

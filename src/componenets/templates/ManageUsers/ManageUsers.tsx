@@ -10,10 +10,8 @@ const DEFAULT_SEARCH: RegExp = new RegExp('', 'i');
 
 const ManageUsers = () => {
 
-
     const [ users, setUsers ] = useState(DEFAULT_USERS);
     const [ search, setSearch ] = useState<RegExp>(DEFAULT_SEARCH);
-
 
     return (
         <div className={classes.container}>

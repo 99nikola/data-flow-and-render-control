@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo } from "react"
-import { debounce } from "underscore";
 import { debounceFunction } from "../../../utils/Utils"
-import TextField from "../../atoms/TextField/TextField"
+import TextField from "../../atoms/TextField/TextField";
+
 
 const SearchInput: React.FC<{
     setSearch: React.Dispatch<React.SetStateAction<RegExp>>
@@ -9,7 +9,7 @@ const SearchInput: React.FC<{
 
     const updateSearchState = (event: React.ChangeEvent<HTMLInputElement>) => {
         const input = event.target.value;
-        if (!input || input.length === 0)
+        if (input === undefined || input === null) 
             return;
 
         setSearch(search => {
@@ -23,6 +23,7 @@ const SearchInput: React.FC<{
 
     return (
         <TextField 
+            placeHolder="Search users by name"
             onChange={onChange}
         />
     )

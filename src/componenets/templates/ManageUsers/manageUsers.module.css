@@ -1,3 +1,7 @@
 .container {
     display: flex;
 }
+
+.usersTable {
+    flex: 5;
+}

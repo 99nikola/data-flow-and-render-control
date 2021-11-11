@@ -6,7 +6,8 @@ import UserRow from "../../molecules/UserRow/UserRow";
 const Table: React.FC<{
     users: IUser[],
     setUsers: React.Dispatch<React.SetStateAction<IUser[]>>;
-}> = ({ users, setUsers }) => {
+    search: RegExp
+}> = ({ users, setUsers, search }) => {
     return (
         <div className={classes.container}>
             <table className={classes.item}>
@@ -20,18 +21,19 @@ const Table: React.FC<{
                     </tr>
 
                     {users.map((user) => {
-                        return (
-                            <UserRow 
-                                key={user.id}
-                                {...user}
-                                deleteEntity={setUsers}
-                            />);
+                        if (search.source.length === 0 || search.test(user.firstName))
+                            return (
+                                <UserRow 
+                                    key={user.id}
+                                    {...user}
+                                    deleteEntity={setUsers}
+                                />);
                     })}
 
                 </tbody>
             </table>
         </div>
-    )
+    );
 }
 
 export default memo(Table);

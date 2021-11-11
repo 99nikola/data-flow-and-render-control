@@ -3,7 +3,7 @@ import { memo, useState } from "react";
 import { address, email, name } from "../../../validation/data/data";
 import { isEmail } from "../../../validation/Validation";
 import Button from "../../atoms/Button/Button";
-import TextFieldState, { DictionaryType } from "../../molecules/TextFieldState";
+import TextFieldState, { DictionaryType } from "../../molecules/TextFieldState/TextFieldState";
 import nextId from "react-id-generator";
 import { IUser } from "../../../typescript/interfaces/User";
 

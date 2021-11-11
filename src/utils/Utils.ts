@@ -42,7 +42,7 @@ export const throttleFunction = (callBack: Function, delay: number) => {
 export const debounceFunction = (callBack: Function, delay: number) => {
     let timerId: NodeJS.Timeout;
 
-    const executor = (args: any) => {
+    const executor = (args?: any) => {
         if (timerId) 
             clearTimeout(timerId);
     

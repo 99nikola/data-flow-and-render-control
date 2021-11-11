@@ -1,14 +1,14 @@
 import classes from "./tableRow.module.css";
-import React, { memo } from "react";
+import React, { memo, useCallback, useState } from "react";
 import { IIdentifiable } from "../../../typescript/interfaces/Identity";
 import { ReactComponent as DeleteIcon } from "../../../res/delete.svg";
 
 export interface TableRowProps extends IIdentifiable {
-    children: any;
-    onDeleteEntity?: (id: string) => void;
+    children: any,
+    onDeleteEntity?: (id: string) => void,
 }
 
-const TableRow: React.FC<TableRowProps> = (props: TableRowProps) => {
+const TableRow: React.FC<TableRowProps> = (props: TableRowProps) => {    
     function onClick() {
         props.onDeleteEntity!(props.id);
     }

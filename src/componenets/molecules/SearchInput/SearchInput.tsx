@@ -12,7 +12,11 @@ const SearchInput: React.FC<{
         if (!input || input.length === 0)
             return;
 
-        setSearch(search => new RegExp(input, 'i'));
+        setSearch(search => {
+            if (search.source === input) 
+                return search;
+            return new RegExp(input, 'i');
+        });
     }
 
     const onChange = debounceFunction(updateSearchState, 500);

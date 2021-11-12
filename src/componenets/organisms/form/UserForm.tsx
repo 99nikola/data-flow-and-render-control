@@ -1,10 +1,9 @@
 import classes from "./form.module.css";
-import { memo, useState } from "react";
+import React, { memo, useState } from "react";
 import { address, email, name } from "../../../validation/data/data";
 import { isEmail } from "../../../validation/Validation";
 import Button from "../../atoms/Button/Button";
 import TextFieldState, { DictionaryType } from "../../molecules/TextFieldState/TextFieldState";
-import nextId from "react-id-generator";
 import { IUser } from "../../../typescript/interfaces/User";
 
 export interface FormType extends Omit<IUser, "id">{}
@@ -14,7 +13,7 @@ export type FormErrorValue = {
     errorMessage: string;
 }
 
-let DEFAULT_ERROR_VALUES: DictionaryType<FormErrorValue> = {
+export let DEFAULT_ERROR_VALUES: DictionaryType<FormErrorValue> = {
     firstName: {
         hasError: true,
         errorMessage: ""
@@ -33,43 +32,27 @@ let DEFAULT_ERROR_VALUES: DictionaryType<FormErrorValue> = {
     }
 }
 
-let DEFAULT_VALUES: FormType = {
-    firstName: "",
-    lastName: "",
-    emailAddress: "",
-    address: ""
-}
-
 export enum FormValidationState {
     VALID,
     VALIDATING,
     INVALID
 }
 
-const Form: React.FC<{
-    setUsers: React.Dispatch<React.SetStateAction<IUser[]>>
-}> = ({ setUsers }) => {
+const UserForm: React.FC<{
+    setErrors: React.Dispatch<React.SetStateAction<DictionaryType<FormErrorValue>>>,
+    setUserInfo: React.Dispatch<React.SetStateAction<FormType>>,
+    setFormValidState: React.Dispatch<React.SetStateAction<FormValidationState>>,
+    errors: DictionaryType<FormErrorValue>,
+    userInfo: FormType,
+    formValidState: FormValidationState,
+    onSubmit(id?: string): void,
+    setIdToEdit?: React.Dispatch<React.SetStateAction<any>>
+}> = (props) => {
 
-    const [ userInfo, setUserInfo ] = useState(DEFAULT_VALUES);
-    const [ errors, setErrors ] = useState(DEFAULT_ERROR_VALUES);
-    const [ formValidState, setFormValidState ] = useState<FormValidationState>(FormValidationState.INVALID);
 
     const submitHandler = (e: any) => {
         e.preventDefault();
-        if (Object.values(errors).some(error => error.hasError)) {
-            setFormValidState(FormValidationState.INVALID);
-            return;
-        }
-
-        setFormValidState(FormValidationState.VALID);
-
-        setUsers(users => ([
-            ...users,
-            {
-                ...userInfo,
-                id: nextId()
-            }
-        ]));
+        props.onSubmit();
     }
 
     return (
@@ -78,56 +61,61 @@ const Form: React.FC<{
                 className={classes.item}
                 onSubmit={submitHandler} 
                 noValidate={true}>
+
                 <TextFieldState 
                     name="firstName"
+                    text={props.userInfo.firstName}
                     rules={name.rules}
-                    error={errors.firstName.errorMessage}
-                    setState={setUserInfo}
-                    setErrors={setErrors}
-                    setFormValidState={setFormValidState}
+                    error={props.errors.firstName.errorMessage}
+                    setState={props.setUserInfo}
+                    setErrors={props.setErrors}
+                    setFormValidState={props.setFormValidState}
                     placeHolder="First Name"
                     />
 
                 <TextFieldState 
                     name="lastName"
+                    text={props.userInfo.lastName}
                     rules={name.rules}
-                    error={errors.lastName.errorMessage}
-                    setState={setUserInfo} 
-                    setErrors={setErrors}
-                    setFormValidState={setFormValidState}
+                    error={props.errors.lastName.errorMessage}
+                    setState={props.setUserInfo} 
+                    setErrors={props.setErrors}
+                    setFormValidState={props.setFormValidState}
                     placeHolder="Last Name"
                     />
 
                 <TextFieldState 
                     name="emailAddress"
-                    setState={setUserInfo} 
-                    setErrors={setErrors}
+                    text={props.userInfo.emailAddress}
+                    setState={props.setUserInfo} 
+                    setErrors={props.setErrors}
                     rules={email.rules}
-                    error={errors.emailAddress.errorMessage}
+                    error={props.errors.emailAddress.errorMessage}
                     placeHolder="Email Address"
                     type="email"
-                    setFormValidState={setFormValidState}
+                    setFormValidState={props.setFormValidState}
                     />
 
                 <TextFieldState 
                     name="address"
+                    text={props.userInfo.address}
                     rules={address.rules}
-                    error={errors.address.errorMessage}
-                    setErrors={setErrors}
-                    setState={setUserInfo} 
+                    error={props.errors.address.errorMessage}
+                    setErrors={props.setErrors}
+                    setState={props.setUserInfo} 
                     placeHolder="Address"
-                    setFormValidState={setFormValidState}
+                    setFormValidState={props.setFormValidState}
                     />
 
                 <Button 
                     type="submit" 
                     value="Submit" 
                     color="primary" 
-                    disabled={formValidState !== FormValidationState.VALID}
+                    disabled={props.formValidState !== FormValidationState.VALID}
                     />
             </form>
        </div>
     )
 }
 
-export default memo(Form);
+export default memo(UserForm);

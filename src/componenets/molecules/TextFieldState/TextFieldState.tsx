@@ -2,7 +2,7 @@ import React, { memo, useCallback, useMemo } from "react";
 import { debounceFunction } from "../../../utils/Utils";
 import { IValidationRuleKey, ValidationRuleFactory } from "../../../validation/data/data";
 import TextField, { TextFieldProps } from "../../atoms/TextField/TextField";
-import { FormErrorValue, FormType, FormValidationState } from "../../organisms/form/Form";
+import { FormErrorValue, FormType, FormValidationState } from "../../organisms/form/UserForm";
 
 export type DictionaryType<T> = { [key: string]: T };
 
@@ -59,6 +59,7 @@ const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, rules,
 
     const changeValue = useCallback(function changeValue(event: React.ChangeEvent<HTMLInputElement>) {
         debouncedValidate.cancel();
+        setFormValidState(FormValidationState.VALIDATING);
         debouncedValidate(event.target.value);
         setErrors((errors: DictionaryType<FormErrorValue>) => {
             if (errors[name].hasError) {
@@ -70,9 +71,6 @@ const TextFieldState: React.FC<PropsType> = ({ name, setState, setErrors, rules,
                     }
                 }
             }
-
-            setFormValidState(FormValidationState.VALIDATING);
-
             return errors;
         });
         setState(currentState => ({

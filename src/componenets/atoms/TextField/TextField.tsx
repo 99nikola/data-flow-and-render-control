@@ -4,13 +4,15 @@ export interface TextFieldProps {
     type?: string,
     placeHolder?: string,
     onChange?: React.ChangeEventHandler<HTMLInputElement>,
-    error?: string
+    error?: string,
+    text?: string
 }
 
-const TextField: React.FC<TextFieldProps> = ({ type, placeHolder, onChange, error }) => {
+const TextField: React.FC<TextFieldProps> = ({ type, placeHolder, onChange, error, text }) => {
     return (
         <div className={classes.field}>
             <input 
+                value={text}
                 className={classes.inputField}
                 type={type} 
                 placeholder={placeHolder}

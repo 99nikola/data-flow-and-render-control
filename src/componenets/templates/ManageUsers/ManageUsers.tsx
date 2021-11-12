@@ -63,12 +63,12 @@ const ManageUsers = () => {
         ]));  
     }, [idToEdit, userInfo]);
 
-    const onReset = () => {
+    const onReset = useCallback(() => {
         setFormValidState(FormValidationState.INVALID);
         setErrors(DEFAULT_ERROR_VALUES);
         setIdToEdit(undefined);
         setUserInfo(DEFAULT_USER_INFO);
-    }
+    }, []);
 
     const onSubmit = useCallback(() => {
 

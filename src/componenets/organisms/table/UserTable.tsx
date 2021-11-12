@@ -1,8 +1,9 @@
 import classes from "./table.module.css";
-import React, { memo, useMemo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { IUser } from "../../../typescript/interfaces/User";
 import UserRow from "../../molecules/UserRow/UserRow";
 import { FormType, FormValidationState } from "../form/UserForm";
+import UserTableHeader, { ESortDirection } from "../../molecules/UserTableHeader";
 
 const firstName = (
     JSON.stringify({
@@ -37,34 +38,41 @@ const UserTable: React.FC<{
     setSortBy: React.Dispatch<React.SetStateAction<Record<string, any>>>
 }> = (props) => {
 
-
-    const sortByHandler = (e: any) => {
-        let accessKey = JSON.parse(e.target.accessKey);
+    const sortByHandler = useCallback((sortBy: keyof IUser, sortDirection?: ESortDirection) => {
         props.setSortBy({
-            name: accessKey.name,
-            asc: accessKey.asc
-        });
-        accessKey.asc = -accessKey.asc;
-        e.target.accessKey = JSON.stringify(accessKey);
-    }
+            name: sortBy,
+            asc: sortDirection
+        })
+    }, []);
 
     return (
         <div className={classes.container}>
             <table className={classes.item}>
                 <tbody>
                     <tr>
-                        <th onClick={sortByHandler} accessKey={firstName}>
-                            First Name
-                        </th>
-                        <th onClick={sortByHandler} accessKey={lastName}>
-                            Last Name
-                        </th>
-                        <th onClick={sortByHandler} accessKey={emailAddress}>
-                            Email Address
-                        </th>
-                        <th onClick={sortByHandler} accessKey={address}>
-                            Address
-                        </th>
+                        <UserTableHeader 
+                            text="Frist Name" 
+                            name="firstName" 
+                            onClick={sortByHandler}
+                            />
+
+                        <UserTableHeader 
+                            text="Last Name" 
+                            name="lastName" 
+                            onClick={sortByHandler}
+                            />
+
+                        <UserTableHeader 
+                            text="Email Address" 
+                            name="emailAddress" 
+                            onClick={sortByHandler}
+                            />
+
+                        <UserTableHeader 
+                            text="Address" 
+                            name="address" 
+                            onClick={sortByHandler}
+                            />
                     </tr>
 
                     {props.users.map((user) => {

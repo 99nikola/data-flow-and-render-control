@@ -15,7 +15,7 @@ export function useSortedAndFilteredData
           props.filterValue.source.length === 0 || 
           props.filterValue.test(entity[props.filterBy])
         );
-    }).sort((a, b) => props.sortBy.asc * a[props.sortBy.name].localeCompare(b[props.sortBy.name]));
+    }).sort((a, b) => (props.sortBy.asc || 1) * a[props.sortBy.name].localeCompare(b[props.sortBy.name]));
   }, [props.original, props.filterValue, props.filterBy, props.sortBy]);
 
   return processedData;

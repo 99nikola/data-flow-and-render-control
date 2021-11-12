@@ -45,8 +45,10 @@ const UserForm: React.FC<{
     errors: DictionaryType<FormErrorValue>,
     userInfo: FormType,
     formValidState: FormValidationState,
-    onSubmit(id?: string): void,
-    setIdToEdit?: React.Dispatch<React.SetStateAction<any>>
+    onSubmit(): void,
+    onReset(): void,
+    setIdToEdit?: React.Dispatch<React.SetStateAction<any>>,
+    editLabel?: string
 }> = (props) => {
 
 
@@ -55,12 +57,19 @@ const UserForm: React.FC<{
         props.onSubmit();
     }
 
+    const resetHandler = (e: any) => {
+        e.preventDefault();
+        props.onReset();        
+    }
+
     return (
        <div className={classes.container}>
             <form 
                 className={classes.item}
                 onSubmit={submitHandler} 
-                noValidate={true}>
+                onReset={resetHandler}
+                noValidate={true}
+                >
 
                 <TextFieldState 
                     name="firstName"
@@ -107,12 +116,20 @@ const UserForm: React.FC<{
                     setFormValidState={props.setFormValidState}
                     />
 
-                <Button 
-                    type="submit" 
-                    value="Submit" 
-                    color="primary" 
-                    disabled={props.formValidState !== FormValidationState.VALID}
-                    />
+                <div className={classes.buttons}>
+                    <Button 
+                        type="submit" 
+                        value={props.editLabel || "Submit"}
+                        color="primary" 
+                        disabled={props.formValidState !== FormValidationState.VALID}
+                        />
+
+                    <Button 
+                        type="reset"
+                        value="Reset"
+                        color="secondary"
+                        />
+                </div>
             </form>
        </div>
     )

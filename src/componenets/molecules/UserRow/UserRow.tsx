@@ -7,7 +7,7 @@ export interface UserRowProps extends IUser {
     updateUsers: React.Dispatch<React.SetStateAction<IUser[]>>,
     setUserInfo: React.Dispatch<React.SetStateAction<FormType>>,
     setFormValidState: React.Dispatch<React.SetStateAction<FormValidationState>>,
-    setIdToEdit: React.Dispatch<React.SetStateAction<string | undefined>>
+    setIdToEdit: React.Dispatch<React.SetStateAction<string | undefined>>,
 }
 
 const UserRow: React.FC<UserRowProps> = (props) => {

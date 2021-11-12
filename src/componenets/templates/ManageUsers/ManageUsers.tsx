@@ -57,6 +57,9 @@ const ManageUsers = () => {
                     address: userInfo.address
                 }
             }));
+            
+            setIdToEdit(undefined);
+            setUserInfo(DEFAULT_USER_INFO);
             return;
         }
 

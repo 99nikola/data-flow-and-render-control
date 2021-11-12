@@ -61,6 +61,8 @@ const ManageUsers = () => {
                 id: nextId()
             }
         ]));  
+        setUserInfo(DEFAULT_USER_INFO);
+
     }, [idToEdit, userInfo]);
 
     const onReset = useCallback(() => {
@@ -75,8 +77,6 @@ const ManageUsers = () => {
         updateOrCreate();  
 
         setFormValidState(FormValidationState.INVALID);
-        setUserInfo(DEFAULT_USER_INFO);
-        
     }, [updateOrCreate])
 
     return (

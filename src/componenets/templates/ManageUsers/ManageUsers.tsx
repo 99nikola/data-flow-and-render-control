@@ -1,6 +1,6 @@
 import classes from "./manageUsers.module.css";
 import UserForm, { DEFAULT_ERROR_VALUES, FormType, FormValidationState } from "../../organisms/form/UserForm";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { IUser } from "../../../typescript/interfaces/User";
 import SearchInput from "../../molecules/SearchInput/SearchInput";
 import nextId from "react-id-generator";
@@ -107,4 +107,4 @@ const ManageUsers = () => {
     )
 }
 
-export default ManageUsers
+export default memo(ManageUsers);

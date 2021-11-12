@@ -1,5 +1,5 @@
 import classes from "./tableRow.module.css";
-import React, { memo, useCallback, useState } from "react";
+import React from "react";
 import { IIdentifiable } from "../../../typescript/interfaces/Identity";
 import { ReactComponent as DeleteIcon } from "../../../res/delete.svg";
 import { ReactComponent as EditIcon } from "../../../res/edit.svg";
@@ -15,7 +15,7 @@ const TableRow: React.FC<TableRowProps> = (props: TableRowProps) => {
     function onDelete() {
         props.onDeleteEntity!(props.id);
     }
-
+ 
     function onEdit() {
         props.onEditEntity!(props.id);
     }

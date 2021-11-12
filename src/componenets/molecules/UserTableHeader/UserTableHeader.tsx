@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useMemo, useState } from "react"
-import { IUser } from "../../typescript/interfaces/User"
-import TableHeader, { TableHeaderProps } from "../atoms/Button/TableHeader"
+import { IUser } from "../../../typescript/interfaces/User"
+import TableHeader, { TableHeaderProps } from "../../atoms/Button/TableHeader"
 
 export enum ESortDirection {
     ASCENDING = 1,

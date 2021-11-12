@@ -7,3 +7,10 @@
   background-color: #d1a684;
   color: whitesmoke;
 }
+
+
+.buttons {
+  display: flex;
+  max-width: 300px;
+  justify-content: space-between;
+}

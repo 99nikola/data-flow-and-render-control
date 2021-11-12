@@ -3,7 +3,7 @@ import React, { memo, useCallback, useMemo } from "react";
 import { IUser } from "../../../typescript/interfaces/User";
 import UserRow from "../../molecules/UserRow/UserRow";
 import { FormType, FormValidationState } from "../form/UserForm";
-import UserTableHeader, { ESortDirection } from "../../molecules/UserTableHeader";
+import UserTableHeader, { ESortDirection } from "../../molecules/UserTableHeader/UserTableHeader";
 
 const firstName = (
     JSON.stringify({
